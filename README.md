@@ -1,2 +1,2 @@
-# impact-platform-nginx
+# Impact Platform: Nginx
 Docker container for Nginx
