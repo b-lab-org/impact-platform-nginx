@@ -20,7 +20,7 @@ RUN apt-get update && \
 ADD nginx.conf /opt/etc/nginx.conf
 
 RUN mkdir -p /data/www && \
-    mkdir -p /data/logs/nginx && \
+    mkdir -p /data/logs && \
     mkdir -p /data/config/ssl && \
     mkdir -p /data/config/sites && \
     mkdir -p /etc/nginx/sites-enabled

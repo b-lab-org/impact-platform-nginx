@@ -6,6 +6,7 @@ Use with the [data container](https://github.com/b-lab-org/impact-platform-data)
 
 * Certfificates and keys go in `/data/config/ssl/`.
 * Sites go in `/data/config/sites/`.
+* Nginx logs can be found in `/data/logs/`.
 
 ## Docker-Compose Usage
 ```
