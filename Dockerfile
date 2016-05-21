@@ -19,21 +19,20 @@ RUN apt-get update && \
 
 ADD nginx.conf /opt/etc/nginx.conf
 
-RUN mkdir -p /etc/nginx && \
-    mkdir -p /etc/nginx/sites-enabled && \
-    mkdir -p /var/log/nginx && \
-    mkdir -p /var/ssl
+RUN mkdir -p /data/www && \
+    mkdir -p /data/logs && \
+    mkdir -p /data/config/ssl && \
+    mkdir -p /data/config/sites && \
+    mkdir -p /etc/nginx/sites-enabled
 
 RUN rm -rf /etc/nginx/sites-enabled/default
 
 ADD start.sh /opt/bin/start.sh
 RUN chmod u=rwx /opt/bin/start.sh
-
-VOLUME ["/etc/nginx/sites-enabled"]
+VOLUME ["/data/config/sites"]
 
 EXPOSE 80
 EXPOSE 443
 
 WORKDIR /opt/bin
-
 ENTRYPOINT ["/opt/bin/start.sh"]

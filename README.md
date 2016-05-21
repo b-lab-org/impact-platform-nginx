@@ -4,8 +4,8 @@
 ## Overview
 Use with the [data container](https://github.com/b-lab-org/impact-platform-data) and [phpfpm container](https://github.com/b-lab-org/impact-platform-phpfpm).
 
-* Certfificates and keys go in `/data/config/ssl`.
-* Sites go in `/data/config/sites`.
+* Certfificates and keys go in `/data/config/ssl/`.
+* Sites go in `/data/config/sites/`.
 
 ## Docker-Compose Usage
 ```
@@ -17,5 +17,15 @@ nginx:
         - "80:80"
         - "443:443"
     links:
-        - phpfpm
+        - php
+
+# required
+php:
+    image: impactbot/impact-platform-php
+    volumes_from:
+        - data
+    ports:
+        - "9000:9000"
 ```
+
+* The [phpfpm container](https://github.com/b-lab-org/impact-platform-phpfpm) is required and aliased as `php` with docker-compose.
