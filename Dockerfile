@@ -29,6 +29,7 @@ RUN rm -rf /etc/nginx/sites-enabled/default
 
 ADD start.sh /opt/bin/start.sh
 RUN chmod u=rwx /opt/bin/start.sh
+RUN usermod -u 1000 www-data
 VOLUME ["/data/config/sites"]
 
 EXPOSE 80
