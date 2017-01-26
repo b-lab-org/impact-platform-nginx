@@ -1,39 +1,15 @@
-FROM ubuntu:15.04
+FROM nginx:alpine
 MAINTAINER "The Impact Bot" <technology@bcorporation.net>
 
-RUN apt-get update -y && \
-    apt-get install -y software-properties-common && \
-    apt-get update && \
-    apt-get install -y nginx && \
-    rm -rf /var/lib/apt/lists/* && \
-    echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
-    chown -R www-data:www-data /var/lib/nginx
+ADD nginx.conf /etc/nginx/
 
-RUN rm -rf /etc/apt/sources.list.d/proposed.list
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache bash \
+    && adduser -D -H -u 1000 -s /bin/bash www-data \
+    && rm /etc/nginx/conf.d/default.conf \
+    && echo "upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf
 
-RUN apt-get update && \
-  apt-get install -y \
-  curl \
-  wget \
-  sudo
+CMD ["nginx"]
 
-ADD nginx.conf /opt/etc/nginx.conf
-
-RUN mkdir -p /data/www && \
-    mkdir -p /data/logs && \
-    mkdir -p /data/config/ssl && \
-    mkdir -p /data/config/sites && \
-    mkdir -p /etc/nginx/sites-enabled
-
-RUN rm -rf /etc/nginx/sites-enabled/default
-
-ADD start.sh /opt/bin/start.sh
-RUN chmod u=rwx /opt/bin/start.sh
-RUN usermod -u 1000 www-data
-VOLUME ["/data/config/sites"]
-
-EXPOSE 80
-EXPOSE 443
-
-WORKDIR /opt/bin
-ENTRYPOINT ["/opt/bin/start.sh"]
+EXPOSE 80 443
